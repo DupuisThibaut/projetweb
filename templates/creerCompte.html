@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> Creation Compte </title>
+        <script type = "text/javascript" 
+         src = "{{ url_for('static', filename = 'js/hello.js') }}" ></script>
+    </head>
+
+    <body>
+        <input type="text" name="identifiant" id="identifiant"></input>
+        <br>
+        <input type="text" name="mot de passe" id="mdp"></input>
+        <br>
+        <button onclick="creerCompte()">Creer mon compte</button>
+        <br>
+        <a href="http://localhost:5000/login">Retour</a>
+    </body>
+</html>
