@@ -4,11 +4,11 @@ Login
 {% endblock%}
 
 {% block content %}
-<form name="login" method="post" action='/login'>
+<form name="login" method="post" action="{{ url_for('login') }}">
     Identifiant :<input type="text" name=username required placeholder="Username"><br>
     Mot de passe :<input type="password" name=password required placeholder="Password"><br>
     <input type="submit" value="Login">
 </form>
 {{error}}
-<a href="/creerCompte">Vous n'avez pas de compte ?</a>
+<a href="{{ url_for('creerCompte') }}">Vous n'avez pas de compte ?</a>
 {% endblock%}

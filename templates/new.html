@@ -4,7 +4,7 @@ Creer QCM
 {% endblock%}
 
 {% block content %}
-<form action="/new" method="post">
+<form action="{{ url_for('new') }}" method="post">
     <p>énoncé:</p>
     <p><input type="text" name="enonce" /></p>
     <p>réponse:</p>

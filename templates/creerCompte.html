@@ -4,10 +4,10 @@ Register
 {% endblock%}
 
 {% block content %}
-<form name="login" method="post" action='/creerCompte'>
-    Username:<input type="text" name=username required placeholder="Username"><br>
+<form name="login" method="post" action="{{ url_for('creerCompte') }}"">
+    Username:<input type=" text" name=username required placeholder="Username"><br>
     Password:<input type="password" name=password required placeholder="Password"><br>
     <input type="submit" value="creerCompte">
 </form>
-<a href="/login">Retour</a>
+<a href="{{ url_for('login') }}">Retour</a>
 {% endblock%}
