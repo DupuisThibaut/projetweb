@@ -8,6 +8,10 @@ app = Flask(__name__)
 
 login={}
 
+@app.route("/")
+def index():
+    return render_template("index.html")
+
 @app.route('/login', methods=['POST', 'GET'])
 def login():
   #https://pythonbasics.org/flask-sqlite/
@@ -28,10 +32,24 @@ def login():
     test.close()
     return render_template('index.html')
 
-@app.route('/')
-@app.route('/index')
-def index():
-    return render_template("login.html")
+# @app.route('/')
+# @app.route('/index')
+# def index():
+#     return render_template("login.html")
+
+@app.route('/new', methods=['GET', 'POST'])
+def new():
+    if request.method == 'POST':
+        if not request.form['enonce'] or not request.form['reponse']:
+            flash('Please enter all the fields', 'error')
+        else:
+            # qcm = qcm(
+            #     request.form['nom'], request.form['proprietaire'], request.form['reponse'])
+            # db.session.add(qcm)
+            # db.session.commit()
+            # flash('Record was successfully added')
+            return redirect(url_for('/'))
+    return render_template('new.html')
 
 @app.route('/mesQCM')
 def mesQcm():
@@ -60,4 +78,4 @@ def creerCompte():
 
 app.run(host='0.0.0.0', port=8888)
 if __name__ == '__main__':
-   app.run(debug = True)
+  app.run(debug = True)
