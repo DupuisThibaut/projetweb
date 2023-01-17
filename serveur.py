@@ -7,6 +7,8 @@ conn = sql.connect('database.db')
 
 conn.execute(
     'CREATE TABLE questions (enonce TEXT, reponse TEXT, etiquette TEXT)')
+conn.execute(
+    'CREATE TABLE user (id TEXT, mdp TEXT)')
 conn.close()
 
 login = {}
