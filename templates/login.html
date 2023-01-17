@@ -7,12 +7,12 @@
     </head>
 
     <body>
-        <input type="text" name="identifiant" id="identifiant"></input>
-        <br>
-        <input type="text" name="mot de passe" id="mdp"></input>
-        <br>
-        <button onclick="connection()">Se Connecter</button>
-        <br>
-        <a href="http://localhost:5000/creerCompte">Vous n'avez pas de compte ?</a>
+        <form name="login" method="post" action='/login'>
+            Identifiant :<input type="text" name=username required placeholder="Username"><br>
+            Mot de passe :<input type="password" name=password required placeholder="Password"><br>
+            <input type="submit" value="Login">
+        </form>
+        {{error}}
+        <a href="http://localhost:8888/creerCompte">Vous n'avez pas de compte ?</a>
     </body>
 </html>
