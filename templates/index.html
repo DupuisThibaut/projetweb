@@ -1,10 +1,32 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <title> Acceuil </title>
-    </head>
+<html lang="en">
 
-    <body>
-        <button onclick="window.location.href='http://localhost:8888/mesQCM';">Mes QCM</button>
-    </body>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <script type="text/javascript" src="{{ url_for('static', filename = 'js/hello.js') }}"></script>
+    <title>{{ title }}</title>
+</head>
+
+<body>
+    <header>
+        <h1>QCM en informatique</h1>
+    </header>
+    <section id="creer_section">
+        <h2>Créez votre QCM !</h2>
+        <a id="creer_redirect" href="/new">créer un QCM</a>
+    </section>
+    <section id="qcms">
+        <h2>Nouveaux QCMs</h2>
+        <!-- liste QCMs -->
+    </section>
+    <a href="/ajouter">AJOUTER PRODUIT</a>
+    <a href="/stock">CONSULTER LES STOCK</a>
+    <footer>
+
+    </footer>
+</body>
+
 </html>
