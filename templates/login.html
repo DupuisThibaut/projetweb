@@ -1,19 +1,14 @@
-<!DOCTYPE html>
-<html>
+{% extends 'base.html' %}
+{% block title%}
+Login
+{% endblock%}
 
-<head>
-    <title> Login </title>
-    <script type="text/javascript" src="{{ url_for('static', filename = 'js/hello.js') }}"></script>
-</head>
-
-<body>
-    <form name="login" method="post" action='/login'>
-        Identifiant :<input type="text" name=username required placeholder="Username"><br>
-        Mot de passe :<input type="password" name=password required placeholder="Password"><br>
-        <input type="submit" value="Login">
-    </form>
-    {{error}}
-    <a href="http://localhost:8888/creerCompte">Vous n'avez pas de compte ?</a>
-</body>
-
-</html>
+{% block content %}
+<form name="login" method="post" action='/login'>
+    Identifiant :<input type="text" name=username required placeholder="Username"><br>
+    Mot de passe :<input type="password" name=password required placeholder="Password"><br>
+    <input type="submit" value="Login">
+</form>
+{{error}}
+<a href="/creerCompte">Vous n'avez pas de compte ?</a>
+{% endblock%}

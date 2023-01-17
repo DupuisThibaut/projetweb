@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <script type="text/javascript" src="{{ url_for('static', filename = 'js/hello.js') }}"></script>
+    <title>
+        {% block title %}
+
+        {% endblock%}
+    </title>
+</head>
+
+<body>
+    <header>
+        <h1>QCM en informatique</h1>
+        <a href="/creerCompte">Creer compte</a>
+        <a href="/login">Se connecter</a>
+    </header>
+
+    {% block content %}
+
+    {% endblock%}
+
+
+    <footer>
+
+    </footer>
+</body>
+
+</html>
