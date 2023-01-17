@@ -1,17 +1,18 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title> Creation Compte </title>
-        <script type = "text/javascript" 
-         src = "{{ url_for('static', filename = 'js/hello.js') }}" ></script>
-    </head>
 
-    <body>
-        <form name="login" method="post" action='/creerCompte'>
-            Username:<input type="text" name=username required placeholder="Username"><br>
-            Password:<input type="password" name=password required placeholder="Password"><br>
-            <input type="submit" value="creerCompte">
-        </form>
-        <a href="http://localhost:8888/login">Retour</a>
-    </body>
+<head>
+    <title> Creation Compte </title>
+    <script type="text/javascript" src="{{ url_for('static', filename = 'js/hello.js') }}"></script>
+</head>
+
+<body>
+    <form name="login" method="post" action='/creerCompte'>
+        Username:<input type="text" name=username required placeholder="Username"><br>
+        Password:<input type="password" name=password required placeholder="Password"><br>
+        <input type="submit" value="creerCompte">
+    </form>
+    <a href="http://localhost:8888/login">Retour</a>
+</body>
+
 </html>

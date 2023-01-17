@@ -1,9 +1,13 @@
 from flask import Flask, redirect, url_for, request, render_template
 import sqlite3 as sql
 
-
 app = Flask(__name__)
 
+conn = sql.connect('database.db')
+
+conn.execute(
+    'CREATE TABLE questions (enonce TEXT, reponse TEXT, etiquette TEXT)')
+conn.close()
 
 login = {}
 
@@ -42,16 +46,27 @@ def login():
 @app.route('/new', methods=['GET', 'POST'])
 def new():
     if request.method == 'POST':
-        conn = sql.connect('database.db')
-        if not request.form['enonce'] or not request.form['reponse']:
-            flash('Please enter all the fields', 'error')
-        else:
-            # qcm = qcm(
-            #     request.form['nom'], request.form['proprietaire'], request.form['reponse'])
-            # db.session.add(qcm)
-            # db.session.commit()
-            # flash('Record was successfully added')
-            return redirect(url_for('/'))
+        try:
+            enonce = request.form['enonce']
+            reponse = request.form['reponse']
+            etiquette = request.form['etiquette']
+
+            with sql.connect("database.db") as con:
+                cur = con.cursor()
+                cur.execute(
+                    "INSERT INTO questions(enonce, reponse, etiquette) VALUES(?, ?, ?)", (enonce, reponse, etiquette))
+
+            con.commit()
+            msg = "Record successfully added"
+
+        except:
+            con.rollback()
+            msg = "error in insert operation"
+
+        finally:
+            return render_template("result.html", msg=msg)
+            con.close()
+
     return render_template('new.html')
 
 
