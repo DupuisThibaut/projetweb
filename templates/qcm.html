@@ -1,12 +1,30 @@
 <html>
     <head>
         <title>Mes QCM</title>
+        <script type = "text/javascript" 
+         src = "{{ url_for('static', filename = 'js/hello.js') }}" ></script>
     </head>
 
     <body>
         Voici la liste de mes QCM :
         <br>
-        <button onclick="creerQCM()">+</button>
+        <div id="question">
+            <input type="text" name="question"></input>
+            <div id="reponse">
+                <input type="checkbox"></input>
+                <input type="text"></input>
+                <input type="button"></input>
+            </div>
+            <br>
+            <button onclick="ajouterUneRep('reponse')">Ajouter une reponse au QCM</button>
+        </div>
+        <div id="AjoutQ">
+            <button onclick="creerQCM('question')">Ajouter un QCM</button>
+        </div>
+        <div id="EnleverQ">
+            <button onclick="Valider('question','reponse')">Valider</button>
+            <button onclick="enleverQCM('question')">Enlever un QCM</button>
+        </div>
 
     </body>
 </html>
