@@ -1,5 +1,7 @@
 from flask import Flask, redirect, url_for, request, render_template
 import sqlite3 as sql
+import markdown
+# https://pypi.org/project/Markdown/
 
 app = Flask(__name__)
 
@@ -36,9 +38,20 @@ def login():
 # def index():
 #     return render_template("login.html")
 
+@app.route('/apercu/<int:numero>')
+# https://flask.palletsprojects.com/en/2.2.x/quickstart/
+def apercu(numero):
+    question=request.form['enonce']
+    reponse=[]
+    for i in range(numero):
+        if request.form['reponse'+str(i)]!=None:
+            reponse.append(request.form['reponse'+str(i)])
+    return render_template("apercu.html",question=question,reponses=reponse)
+
 @app.route('/new', methods=['GET', 'POST'])
 def new():
     if request.method == 'POST':
+        msg=""
         try:
             enonce = request.form['enonce']
             reponse = request.form['reponse']
@@ -114,6 +127,6 @@ def creerCompte():
     return render_template('creerCompte.html')
 
 
-app.run(host='0.0.0.0', port=8888)
+app.run(host='0.0.0.0', port=5000)
 if __name__ == '__main__':
     app.run(debug=True)
