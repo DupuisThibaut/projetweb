@@ -32,8 +32,10 @@ var nbRep=1;
 
 function ajouterRep(div){
     var  maDiv=document.getElementById(div);
-    let rep="<input type='text' name='reponse"+nbRep.toString()+"'></input><br><br>";
+    var reponse='reponse'+nbRep.toString();
+    let rep="<p id='reponse"+nbRep.toString()+"'><input type='checkbox' name='reponse"+nbRep.toString()+"'><input type='text' name='reponse"+nbRep.toString()+"'></input><button type='button' onclick='supprimerRep("+'"'+reponse+'"'+")' name='reponse"+nbRep.toString()+"'></button></p>";
     maDiv.insertAdjacentHTML('beforeend', rep);
+    nbRep++;
 }
 
 function personneCo(div){
@@ -46,4 +48,27 @@ function personneCo(div){
 
 function identification(iden){
     user_actu=iden;
+}
+
+function supprimerRep(div){
+    // https://developer.mozilla.org/fr/docs/Web/API/Element/remove
+    var  maDiv=document.getElementById(div);
+    maDiv.remove();
+}
+
+function envoyerApercu(){
+    document.getElementById("creation").style.display="none";
+    document.getElementById("apercu").style.display="block";
+    var question=document.getElementById("enonce").value;
+    rep=[question];
+    for (let i=0; i<nbRep; i++){
+        rep.push(document.getElementById("reponse"+i.toString()).value);
+    }
+    // window.location.href="http://localhost:5000/apercu/"+nbRep.toString();
+    console.log(question);
+}
+
+function retour(){
+    document.getElementById("creation").style.display="block";
+    document.getElementById("apercu").style.display="none";
 }
