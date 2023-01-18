@@ -1,15 +1,4 @@
-function connection(){
-    console.log("aaaa");
-    var id=document.getElementById("identifiant").value;
-    var mdp=document.getElementById("mdp").value;
-    document.location.href='http://localhost:8888/login/'+id+'/'+mdp;
-}
-
-function creerCompte(){
-    var id=document.getElementById("identifiant").value;
-    var mdp=document.getElementById("mdp").value;
-    document.location.href='http://localhost:8888/creerCompte/'+id+'/'+mdp;
-}
+var user_actu='';
 
 function creerQCM(div){
     var  maDiv = document.getElementById(div);
@@ -39,12 +28,22 @@ function enleverQCM(div){
 	}
 }
 
-function ajouterUneRep(div){
-    var  maDiv = document.getElementById(div);
-	if(maDiv.style.display == "none"){
-		maDiv.style.display = "block";
-	}
-	else{
-		maDiv.style.display = "none";
-	}
+var nbRep=1;
+
+function ajouterRep(div){
+    var  maDiv=document.getElementById(div);
+    let rep="<input type='text' name='reponse"+nbRep.toString()+"'></input><br><br>";
+    maDiv.insertAdjacentHTML('beforeend', rep);
+}
+
+function personneCo(div){
+    if (user_actu==''){
+        return false;
+    }
+    else 
+        return true;
+}
+
+function identification(iden){
+    user_actu=iden;
 }
