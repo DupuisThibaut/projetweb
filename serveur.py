@@ -11,7 +11,6 @@ login = {}
 def index():
     return render_template("index.html")
 
-
 @app.route('/login', methods=['POST', 'GET'])
 def login():
   # https://pythonbasics.org/flask-sqlite/
@@ -25,18 +24,17 @@ def login():
         password = request.form['password']
         if response[0] == password:
             test.close()
+            return render_template('index.html',iden=iden)
         else:
             error = 'identifiant ou mot de passe incorrect'
             test.close()
             return render_template('login.html', error=error)
-    test.close()
     return render_template('login.html')
 
 # @app.route('/')
 # @app.route('/index')
 # def index():
 #     return render_template("login.html")
-
 
 @app.route('/new', methods=['GET', 'POST'])
 def new():
@@ -45,23 +43,46 @@ def new():
             enonce = request.form['enonce']
             reponse = request.form['reponse']
             etiquette = request.form['etiquette']
-
-            with sql.connect("database.db") as con:
+            with sql.connect("database2.db") as con:
                 cur = con.cursor()
+                cur.execute("SELECT count(utilisateur) FROM questions WHERE utilisateur=?", (utilisateur))
+                response = cursor.fetchone()
+                refQ=utilisateur+str(response)
                 cur.execute(
-                    "INSERT INTO questions(enonce, reponse, etiquette) VALUES(?, ?, ?)", (enonce, reponse, etiquette))
-
-            con.commit()
-            msg = "Record successfully added"
-
+                    "INSERT INTO questions(refQ, utilisateur, enonce, reponse, etiquette) VALUES(?, ?, ?)", (refQ, utilisateur, enonce, reponse, etiquette))
+                con.commit()
+                msg = "Record successfully added"
         except:
             con.rollback()
             msg = "error in insert operation"
-
         finally:
-            return render_template("result.html", msg=msg)
+            return render_template("index.html", msg=msg)
             con.close()
+    return render_template('new.html')
 
+
+@app.route('/new/<utilisateur>', methods=['GET', 'POST'])
+def new2(utilisateur):
+    if request.method == 'POST':
+        try:
+            enonce = request.form['enonce']
+            reponse = request.form['reponse']
+            etiquette = request.form['etiquette']
+            with sql.connect("database2.db") as con:
+                cur = con.cursor()
+                cur.execute("SELECT count(utilisateur) FROM questions WHERE utilisateur=?", (utilisateur))
+                response = cursor.fetchone()
+                refQ=utilisateur+str(response)
+                cur.execute(
+                    "INSERT INTO questions(refQ, utilisateur, enonce, reponse, etiquette) VALUES(?, ?, ?)", (refQ, utilisateur, enonce, reponse, etiquette))
+                con.commit()
+                msg = "Record successfully added"
+        except:
+            con.rollback()
+            msg = "error in insert operation"
+        finally:
+            return render_template("index.html", msg=msg)
+            con.close()
     return render_template('new.html')
 
 
@@ -88,7 +109,7 @@ def creerCompte():
             con.rollback()
             msg = "erreur"
         finally:
-            return redirect('http://localhost:8888/')
+            return render_template('index.html',iden=iden)
             con.close()
     return render_template('creerCompte.html')
 
