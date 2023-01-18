@@ -4,13 +4,34 @@ Creer QCM
 {% endblock%}
 
 {% block content %}
-<form action="{{ url_for('new') }}" method="post">
+<form id="creation" action="{{ url_for('new') }}" method="post">
     <p>énoncé:</p>
-    <p><input type="text" name="enonce" /></p>
+    <p><input id="enonce" type="text" name="enonce" /></p>
     <p>réponse:</p>
-    <p><input type="text" name="reponse" /></p>
+    <div id="reponse">
+    <p id="reponse0">
+        <input type="checkbox" name="reponse0">
+        <input type="text" name="reponse0" />
+        <button type="button" id="supprimer" name="reponse0" onclick="supprimerRep('reponse0')"></button>
+    </p>
+    </div>
+    <button type="button" id="ajouter" onclick="ajouterRep('reponse')">ajouter une reponse</button>
     <p>étiquette:</p>
     <p><input type="text" name="etiquette" /></p>
-    <p><input type="submit" value="AJOUTER" /></p>
+    <button type="submit" name="AJOUTER">Ajouter la question</button>
+    <button type="button" name="Aperçu" onclick="envoyerApercu()">Aperçu</button>
 </form>
+<form id="apercu" action="{{ url_for('new') }}" method="post" display.style="none">
+    <p>énoncé:</p>
+    <p><input type="text" name="enonce" value="{{question}}"/></p>
+    <p>réponse:</p>
+    <div id="reponse">
+    <p id="reponse0">
+        <input type="checkbox" name="reponse0">
+        <input type="text" name="reponse0" />
+    </p>
+    </div>
+    <button type="button" name="Aperçu" onclick="retour()">Retour</button>
+</form>
+<script type="text/javascript">retour()</script>
 {% endblock%}
