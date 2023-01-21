@@ -1,0 +1,58 @@
+bibliotheque MathJax pour LaTeX
+https://fr.wikipedia.org/wiki/LaTeX
+
+mermaid
+https://mermaid.js.org/intro/
+
+<script type="module">
+  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@9/dist/mermaid.esm.min.mjs';
+  mermaid.initialize({ startOnLoad: true });
+</script>
+
+EXEMPLE MERMAID :
+http://www.xavierdupre.fr/app/jyquickhelper/helpsphinx/notebooks/nb_mermaid.html
+
+from jyquickhelper import RenderJS
+css = ["http://www.xavierdupre.fr/js/mermaid/mermaid.forest.css"]
+libs = ['http://www.xavierdupre.fr/js/mermaid/mermaidAPI.min.js']
+script = """
+var graphDefinition = 'graph TB\\na-->b';
+var cb = function(svgGraph) {
+    document.getElementById('__ID__').innerHTML = svgGraph;
+}
+mermaidAPI.render('__ID__svg', graphDefinition, cb);
+"""
+jr = RenderJS(script, css=css, libs=libs)
+<div id="M7a059e1abe334bd3a7b6cac96353f507-css"><link rel="stylesheet" href="http://www.xavierdupre.fr/js/mermaid/mermaid.forest.css" type="text/css" /><div id="M7a059e1abe334bd3a7b6cac96353f507" style="width:100%;height:100%;"></div></div>
+<script>
+require(['http://www.xavierdupre.fr/js/mermaid/mermaidAPI.min.js'], function() {
+var graphDefinition = 'graph TBna-->b';
+var cb = function(svgGraph) {
+    document.getElementById('M7a059e1abe334bd3a7b6cac96353f507').innerHTML = svgGraph;
+}
+mermaidAPI.render('M7a059e1abe334bd3a7b6cac96353f507svg', graphDefinition, cb);
+ });
+</script>
+
+ETIQUETTES
+
+le mettre dans le index.html
+prendre chaque etiquette de la bdd et afficher chaque qcm correspondant avec markdown
+
+PAGES DE QUESTIONS
+
+dans la page mesQCM
+faire un case a cocher a cote de chaque qcm que on a cree et permet de apres avoir appuyer sur un bouton lance une page dimpression avec les qcm selectionnes en markdown
+http://memo-web.fr/categorie-javascript-222/
+aide pour faire l'impression
+
+Ce qu'il reste a faire en plus :
+
+-faire apercu
+-des commentaires
+-mettre les sources
+-voir pour ameliorer les logins/creation compte et mettre une deco
+-mettre un bouton pour modifier les qcm
+-inclure le css 
+
+
