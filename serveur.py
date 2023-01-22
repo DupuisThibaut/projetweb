@@ -116,10 +116,6 @@ def ajouterEti(x):
         question = cursor.fetchone()
         cursor.execute(
             "INSERT INTO Etiquette(titre, id_question) VALUES (?, ?)", (request.form[f'etiquette{i}'], question[0]))
-        cursor.execute(
-        "SELECT * from Etiquette")
-        q=cursor.fetchall()
-        print(q)
         conn.commit()
         conn.close()
 
@@ -180,16 +176,23 @@ def new():
         return render_template('new.html', eti=nbEti)
     return render_template('new.html')
 
-
 @ app.route('/apercu/<int:numero>')
 # https://flask.palletsprojects.com/en/2.2.x/quickstart/
 def apercu(numero):
-    question = request.form['enonce']
-    reponse = []
-    for i in range(numero):
-        if request.form['reponse'+str(i)] != None:
-            reponse.append(request.form['reponse'+str(i)])
-    return render_template("apercu.html", question=question, reponses=reponse)
+    conn = sql.connect('qcm.db')
+    cur = conn.cursor()
+    res = cur.execute("SELECT * FROM Questions WHERE id= ?", (numero,))
+    question = res.fetchone()
+    res2 = cur.execute(
+        "SELECT * FROM Reponses WHERE id_question= ?", (numero,))
+    reponses = res2.fetchall()
+    conn.close()
+    # question = request.form['enonce']
+    # reponse = []
+    # for i in range(numero):
+    #     if request.form['reponse'+str(i)] != None:
+    #         reponse.append(request.form['reponse'+str(i)])
+    return render_template("apercu.html", question=question, reponses=reponses)
 
 
 # @app.route('/new', methods=['GET', 'POST'])
@@ -247,10 +250,42 @@ def apercu(numero):
 
 
 # QCM d'un utilisateur
-@ app.route('/mesQCM')
-def mesQcm():
-    return render_template("qcm.html")
-
+@ app.route('/mesQCM', methods=['POST', 'GET'])
+def mesQCM():
+    if request.method=='POST':
+        with sql.connect('qcm.db') as con:
+            username=session['username']
+            etiquette=request.form['etiquette']
+            error=""
+            cur = con.cursor()
+            cur.execute(
+                "Select distinct enonce, Questions.id from Questions, Etiquette where utilisateur=? and titre=? and id_question=Questions.id" , (username, etiquette))
+            a=cur.fetchall()
+            if a==[]:
+                error="Il n'y a pas de questions avec comme etiquette : "+etiquette
+            return render_template('qcm.html', questions=a, error=error)
+    try:
+        with sql.connect('qcm.db') as con:
+            username=session['username']
+            cur = con.cursor()
+            cur.execute(
+                "Select distinct enonce, id from Questions where utilisateur=?", (username))
+            a=cur.fetchall()
+            con.commit()
+            msg = "Compte crée"
+    except:
+        con.rollback()
+        msg = "erreur"
+    finally:
+        con.close()
+        session['username']=username
+        i=len(a)
+        b=[]
+        for j in range(len(a)):
+            d=a[j][0].replace('\r\n'," &&REMPLACEMENT&& ")
+            e=a[j][1]
+            b.append([d,e])
+        return render_template('qcm.html', questions=b, i=i)
 
 # Creation de compte
 @ app.route('/creerCompte', methods=['POST', 'GET'])
