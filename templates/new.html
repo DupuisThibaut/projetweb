@@ -6,6 +6,35 @@ Creer QCM
 {% block content %}
 {{ eti }}
 
+<script type="text/javascript">
+    function envoyerApercu(){
+        document.getElementById("creation").style.display="none";
+        document.getElementById("apercu").style.display="block";
+        for (let i=0; i<nbRep; i++){
+            var  maDiv=document.getElementById("areponse");
+            let rep="<div id='areponse"+i.toString()+"'><input type='checkbox' name='avaleur"+i.toString()+"' /></div>";
+            maDiv.insertAdjacentHTML('beforeend', rep);
+        }
+        var question=document.getElementById("enonce");
+        if (question.value.search("mermaid")==-1){
+            a=parseMd(question.value);
+            var  maDiv=document.getElementById("b");
+            maDiv.insertAdjacentHTML('beforeend', a);
+            for (let i=0; i<nbRep; i++){
+                repb=document.getElementById("a"+i.toString());
+                a=parseMd(repb.value);
+                var  maDiv=document.getElementById("areponse"+i.toString());
+                maDiv.insertAdjacentHTML('beforeend', a);
+            }
+            // window.location.href="http://localhost:5000/apercu/"+nbRep.toString();
+        }
+        else{
+            var  maDiv=document.getElementById("enonce");
+            maDiv.insertAdjacentHTML('beforeend', "<pre class='mermaid'>"+question.value+"</pre>");
+        }
+    }
+</script>
+
 <form id="creation" action="{{ url_for('new') }}" method="post">
     <p>énoncé: <textarea id="enonce" type="text" name="enonce" /></textarea></p>
 
@@ -13,7 +42,7 @@ Creer QCM
     <div id="reponse">
         <p id="reponse0">
             <!-- <input type="checkbox" name="valid_reponse0"> -->
-            <input type="text" name="reponse0" />
+            <input type="text" id="a0" name="reponse0" />
             <input type="checkbox" name="valeur0" />
             <input id="nb_rep" name="nb_rep" type="number" value="" hidden />
             <!-- <button type="button" id="supprimer" onclick="supprimerRep('reponse0')">supprimer</button> -->
@@ -39,13 +68,9 @@ Creer QCM
 
 <form id="apercu" action="{{ url_for('new') }}" method="post" display.style="none">
     <p>énoncé:</p>
-    <p><input type="text" name="enonce" value="{{question}}" /></p>
+    <div name="enonce" id="b"></div>
     <p>réponse:</p>
-    <div id="reponse">
-        <p id="reponse0">
-            <input type="checkbox" name="reponse0">
-            <input type="text" name="reponse0" />
-        </p>
+    <div id="areponse">
     </div>
     <button type="button" name="Aperçu" onclick="retour()">Retour</button>
 </form>
