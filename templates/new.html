@@ -4,34 +4,51 @@ Creer QCM
 {% endblock%}
 
 {% block content %}
+{{ eti }}
+
 <form id="creation" action="{{ url_for('new') }}" method="post">
-    <p>énoncé:</p>
-    <p><input id="enonce" type="text" name="enonce" /></p>
-    <p>réponse:</p>
+    <p>énoncé: <textarea id="enonce" type="text" name="enonce" /></textarea></p>
+
+    <p>réponses:</p>
     <div id="reponse">
-    <p id="reponse0">
-        <input type="checkbox" name="reponse0">
-        <input type="text" name="reponse0" />
-        <button type="button" id="supprimer" name="reponse0" onclick="supprimerRep('reponse0')"></button>
-    </p>
+        <p id="reponse0">
+            <!-- <input type="checkbox" name="valid_reponse0"> -->
+            <input type="text" name="reponse0" />
+            <input type="checkbox" name="valeur0" />
+            <input id="nb_rep" name="nb_rep" type="number" value="" hidden />
+            <!-- <button type="button" id="supprimer" onclick="supprimerRep('reponse0')">supprimer</button> -->
+        </p>
     </div>
     <button type="button" id="ajouter" onclick="ajouterRep('reponse')">ajouter une reponse</button>
-    <p>étiquette:</p>
-    <p><input type="text" name="etiquette" /></p>
+
+    <p>Etiquettes:</p>
+    <div id="etiquette">
+        <p id="etiquette0">
+            <input type="text" name="etiquette0" />
+            <input id="nb_eti" name="nb_eti" type="number" value="" hidden />
+        </p>
+    </div>
+    <button type="button" id="ajouter" onclick="ajouterEti('etiquette')">ajouter une etiquette</button>
+
     <button type="submit" name="AJOUTER">Ajouter la question</button>
+
     <button type="button" name="Aperçu" onclick="envoyerApercu()">Aperçu</button>
 </form>
+
+
+
 <form id="apercu" action="{{ url_for('new') }}" method="post" display.style="none">
     <p>énoncé:</p>
-    <p><input type="text" name="enonce" value="{{question}}"/></p>
+    <p><input type="text" name="enonce" value="{{question}}" /></p>
     <p>réponse:</p>
     <div id="reponse">
-    <p id="reponse0">
-        <input type="checkbox" name="reponse0">
-        <input type="text" name="reponse0" />
-    </p>
+        <p id="reponse0">
+            <input type="checkbox" name="reponse0">
+            <input type="text" name="reponse0" />
+        </p>
     </div>
     <button type="button" name="Aperçu" onclick="retour()">Retour</button>
 </form>
-<script type="text/javascript">retour()</script>
+
+<script type="text/javascript">retour();</script>
 {% endblock%}
