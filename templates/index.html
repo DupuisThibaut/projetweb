@@ -7,18 +7,27 @@ Home
 {% block content %}
 
 <script type="text/javascript">
-    identification("{{ iden }}");
+    identification("{{ username }}");
 </script>
 <section id="connection">
     <a id="connection_redirect" href="{{ url_for('login') }}">Connectez-vous !</a>
     <a id="creation_redirect" href="{{ url_for('creerCompte') }}">Inscrivez-vous !</a>
+    <h3>Bonjour {{ username }}</h3>
 </section>
 <section id="creer_section">
     <h2>Créez votre QCM !</h2>
     <a id="creer_redirect" href="{{ url_for('new') }}">créer un QCM</a>
 </section>
 <section id="qcms">
+    <a id="mesqcm_redirect" href="{{ url_for('mesQCM') }}">Accedez a mes QCM</a>
     <h2>Nouveaux QCMs</h2>
+    {% for question in questions: %}
+    <h3><a href="{{ url_for('apercu', numero=question[0]) }}"> Question n° {{question[0]}} de : {{question[2]}}</a>
+    </h3>
+    <pre class="mermaid">
+        {{ question[1] }}
+    </pre>
+    {% endfor %}
     <!-- liste QCMs -->
 </section>
 {% endblock%}
