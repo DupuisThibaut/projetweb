@@ -33,6 +33,7 @@ def create_table():
     cur.execute("""CREATE TABLE Reponses(
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         reponse TEXT,
+        valeur TEXT,
         id_question INTEGER,
         FOREIGN KEY ("id_question") REFERENCES "Questions"("id"))
         """)
@@ -115,6 +116,10 @@ def ajouterEti(x):
         question = cursor.fetchone()
         cursor.execute(
             "INSERT INTO Etiquette(titre, id_question) VALUES (?, ?)", (request.form[f'etiquette{i}'], question[0]))
+        cursor.execute(
+        "SELECT * from Etiquette")
+        q=cursor.fetchall()
+        print(q)
         conn.commit()
         conn.close()
 
@@ -126,15 +131,19 @@ def ajouterRep(x):
         cursor.execute(
             "SELECT id FROM Questions ORDER BY id DESC")
         question = cursor.fetchone()
+        valeur=request.form.get(f'valeur{i}')
+        if valeur=="on":
+            valeur="vrai"
+        else:
+            valeur="faux"
         cursor.execute(
-            "INSERT INTO Reponses(reponse, id_question) VALUES (?, ?)", (request.form[f'reponse{i}'], question[0]))
+            "INSERT INTO Reponses(reponse, valeur, id_question) VALUES (?, ?, ?)", (request.form[f'reponse{i}'], valeur, question[0]))
         conn.commit()
         conn.close()
 
 
 @ app.route('/new', methods=['GET', 'POST'])
 def new():
-    print(session['username'])
     msg = None
     if request.method == 'POST':
         # RECUP DES DONNEES FORMULAIRE
@@ -148,16 +157,7 @@ def new():
         if nbEti=="":
             nbEti=1
         ajouterRep(int(nbRep))
-        for i in range(int(nbEti)):
-            conn = sql.connect('qcm.db')
-            cursor = conn.cursor()
-            cursor.execute(
-                "SELECT id FROM Questions ORDER BY id DESC")
-            question = cursor.fetchone()
-            cursor.execute(
-                "INSERT INTO Etiquette(titre, id_question) VALUES (?, ?)", (request.form[f'etiquette{i}'], question[0]))
-            conn.commit()
-            conn.close()
+        ajouterEti(int(nbEti))
 
         # CREATION DE LA QUESTION
 
