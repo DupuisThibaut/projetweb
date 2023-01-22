@@ -1,30 +1,40 @@
-<html>
-    <head>
-        <title>Mes QCM</title>
-        <script type = "text/javascript" 
-         src = "{{ url_for('static', filename = 'js/hello.js') }}" ></script>
-    </head>
+{% extends 'base.html' %}
+{% block title%}
+Mes QCM
+{% endblock%}
 
-    <body>
-        Voici la liste de mes QCM :
-        <br>
-        <div id="question">
-            <input type="text" name="question"></input>
-            <div id="reponse">
-                <input type="checkbox"></input>
-                <input type="text"></input>
-                <input type="button"></input>
-            </div>
-            <br>
-            <button onclick="ajouterUneRep('reponse')">Ajouter une reponse au QCM</button>
-        </div>
-        <div id="AjoutQ">
-            <button onclick="creerQCM('question')">Ajouter un QCM</button>
-        </div>
-        <div id="EnleverQ">
-            <button onclick="Valider('question','reponse')">Valider</button>
-            <button onclick="enleverQCM('question')">Enlever un QCM</button>
-        </div>
-
-    </body>
-</html>
+{% block content %}
+<form id="etiquette" action="{{ url_for('mesQCM') }}" method="post">
+    Rechercher par etiquette : <input type="text" id="etiquette" name="etiquette"></input>
+    <button type="submit">Rechercher</button>
+<div id="qcm">
+    
+</div>
+<input type="text" id="qcm2" name="qcm2" hidden>
+    
+</input>
+{%for j in questions:%}
+    <script type="text/javascript">
+        var  maDiv=document.getElementById("qcm2");
+        b="{{j[0]}}"
+        console.log(b);
+        if (b.search("mermaid")==-1){
+            do{
+                b=b.replace("&amp;&amp;REMPLACEMENT&amp;&amp;",'\r\n');
+            }while(b.search("&amp;&amp;REMPLACEMENT&amp;&amp;")!=-1)
+            maDiv.value=b;
+            a=parseMd(maDiv.value);
+            console.log(a);
+            var  maDiv=document.getElementById("qcm");
+            maDiv.insertAdjacentHTML('beforeend', a);
+            document.getElementById("qcm2").innerHTML="";
+        }
+        else{
+            var  maDiv=document.getElementById("qcm");
+            maDiv.insertAdjacentHTML('beforeend', "<pre class='mermaid'>{{ j[1] }}</pre>");
+        }
+    </script>
+    
+    {% endfor %}
+{{error}}
+{% endblock%}
