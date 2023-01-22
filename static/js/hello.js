@@ -1,4 +1,4 @@
-var user_actu='';
+user_actu='';
 
 function creerQCM(div){
     var  maDiv = document.getElementById(div);
@@ -29,14 +29,47 @@ function enleverQCM(div){
 }
 
 var nbRep=1;
+var nbEti=1;
+function registerNbRep(){
+    document.getElementById("nb_rep").value = nbRep;
+}
+function registerNbEti(){
+    document.getElementById("nb_eti").value = nbEti;
+}
 
 function ajouterRep(div){
     var  maDiv=document.getElementById(div);
     var reponse='reponse'+nbRep.toString();
-    let rep="<p id='reponse"+nbRep.toString()+"'><input type='checkbox' name='reponse"+nbRep.toString()+"'><input type='text' name='reponse"+nbRep.toString()+"'></input><button type='button' onclick='supprimerRep("+'"'+reponse+'"'+")' name='reponse"+nbRep.toString()+"'></button></p>";
+    let rep="<p id='reponse"+nbRep.toString()+"'><input type='text' name='reponse"+nbRep.toString()+"'><input type='checkbox' name='valeur"+nbRep.toString()+"' /></input><button type='button' onclick='supprimerRep("+'"'+reponse+'"'+")'>supprimer</button></p>";
     maDiv.insertAdjacentHTML('beforeend', rep);
     nbRep++;
+    registerNbRep();
 }
+function supprimerRep(div){
+    // https://developer.mozilla.org/fr/docs/Web/API/Element/remove
+    var  maDiv=document.getElementById(div);
+    maDiv.remove();
+    nbRep--;
+    registerNbRep();
+}
+
+function ajouterEti(div){
+    var  maDiv=document.getElementById(div);
+    var etiquette='etiquette'+nbEti.toString();
+    let eti="<p id='etiquette"+nbRep.toString()+"'><input type='text' name='etiquette"+nbRep.toString()+"'></input><button type='button' onclick='supprimerEti("+'"'+etiquette+'"'+")'>supprimer</button></p>";
+    maDiv.insertAdjacentHTML('beforeend', eti);
+    nbEti++;
+    registerNbEti();
+}
+function supprimerEti(div){
+    // https://developer.mozilla.org/fr/docs/Web/API/Element/remove
+    var  maDiv=document.getElementById(div);
+    maDiv.remove();
+    nbEti--;
+    registerNbEti();
+}
+/* <input type='checkbox' name='valid_reponse"+nbRep.toString()+"'></input> */
+
 
 function personneCo(div){
     if (user_actu==''){
@@ -47,14 +80,12 @@ function personneCo(div){
 }
 
 function identification(iden){
-    user_actu=iden;
+    window.user_actu=iden;
 }
 
-function supprimerRep(div){
-    // https://developer.mozilla.org/fr/docs/Web/API/Element/remove
-    var  maDiv=document.getElementById(div);
-    maDiv.remove();
-}
+
+
+
 
 function envoyerApercu(){
     document.getElementById("creation").style.display="none";
