@@ -5,7 +5,6 @@ contenant nom, prenom, numéro étudiant. On rappelle que le numéro étudiant
 identifie de manière unique un étudiant.
 
 2. Le compte n'est créé que s'il n'existait pas.
-3. 
 4. Le mot de passe par défaut est le numéro étudiant, mais l'étudiant peut
 ensuite le changer.
 
